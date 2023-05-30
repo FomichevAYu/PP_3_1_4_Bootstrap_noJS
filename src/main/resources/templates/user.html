@@ -7,5 +7,8 @@
 <body>
 <p th:text="${user.id}">VALUE</p>
 <p th:text="${user.username}">VALUE</p>
+<form th:action="@{/logout}" method="post">
+    <button type="submit">Выйти</button>
 </body>
 </html>
+

@@ -18,7 +18,6 @@ public class UserController {
     public UserController(UserService userService) {
         this.userService = userService;
     }
-
     @GetMapping("")
     public String showUser(Model model, Principal principal) {
         model.addAttribute("user", userService.findByUsername(principal.getName()));

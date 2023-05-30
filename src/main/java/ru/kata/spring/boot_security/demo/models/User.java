@@ -18,7 +18,6 @@ public class User implements UserDetails{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-
     private String username;
     private String password;
     @ManyToMany
@@ -27,7 +26,6 @@ public class User implements UserDetails{
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<Role> roles;
-
     public long getId() {
         return id;
     }
@@ -109,15 +107,4 @@ public class User implements UserDetails{
                 ", roles=" + roles +
                 '}';
     }
-    public void addRole(Role role) {
-        if (roles == null) {
-            roles = new ArrayList<>();
-        }
-        roles.add(role);
-    }
-
-    public void removeRole(Role role) {
-        roles.remove(role);
-    }
-
 }

@@ -17,14 +17,12 @@ import java.util.List;
 @RequestMapping("/new")
 public class RegistrationController {
     private UserService userService;
-
     private RoleRepository roleRepository;
     @Autowired
     public RegistrationController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
         this.roleRepository = roleRepository;
     }
-
     @GetMapping("")
     public String showNewUserForm(Model model) {
         User user = new User();
@@ -35,7 +33,6 @@ public class RegistrationController {
 
         return "new";
     }
-
     @PostMapping
     public String createUser(@ModelAttribute("user") User user, @RequestParam("roles") List<Long> roleIds, Principal principal) {
         List<Role> roles = roleRepository.findAllById(roleIds);
