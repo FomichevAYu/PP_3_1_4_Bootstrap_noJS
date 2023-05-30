@@ -13,6 +13,7 @@ import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.transaction.Transactional;
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,5 +37,18 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User not found");
         }
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), user.getAuthorities());
+    }
+
+
+    public List<User> showAllUsers() {
+        return userRepository.findAll();
+    }
+
+    public void createUser (User user) {
+        userRepository.save(user);
+    }
+
+    public User showUser(long id) {
+        return userRepository.findById(id);
     }
 }

@@ -9,10 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 
 import javax.persistence.*;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Entity
@@ -111,6 +108,16 @@ public class User implements UserDetails{
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+    public void addRole(Role role) {
+        if (roles == null) {
+            roles = new ArrayList<>();
+        }
+        roles.add(role);
+    }
+
+    public void removeRole(Role role) {
+        roles.remove(role);
     }
 
 }
