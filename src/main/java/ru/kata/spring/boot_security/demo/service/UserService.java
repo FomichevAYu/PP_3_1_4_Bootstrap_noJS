@@ -40,7 +40,6 @@ public class UserService implements UserDetailsService {
     public void createUser(User user) {
         userRepository.save(user);
     }
-
     public User showUser(long id) {
         return userRepository.findById(id);
     }
