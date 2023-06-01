@@ -1,13 +1,8 @@
 package ru.kata.spring.boot_security.demo.models;
 
-import org.hibernate.annotations.GeneratorType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
-
 import javax.persistence.*;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -20,7 +15,7 @@ public class User implements UserDetails{
     private long id;
     private String username;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),

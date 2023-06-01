@@ -15,9 +15,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
-    private UserService userService;
+    final private UserService userService;
 
-    private RoleRepository roleRepository;
+    final private RoleRepository roleRepository;
     @Autowired
     public AdminController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
@@ -34,20 +34,17 @@ public class AdminController {
         model.addAttribute("user", userService.showUser(id));
         return "user";
     }
-    @GetMapping("/{id}/edit")
     @Transactional
+    @GetMapping("/{id}/edit")
     public String showEditUserPage(@PathVariable("id") long id, Model model) {
         List<Role> roles =  roleRepository.findAll();
         model.addAttribute("allRoles", roles);
         model.addAttribute("user", userService.showUser(id));
-        User user = userService.showUser(id);
-        System.out.println(user);
-        System.out.println(roles);
         return "edit";
     }
     @PatchMapping("/{id}")
-    public String updateUser(@ModelAttribute("user") User user, @PathVariable("id") long id) {
-        userService.updateUser(user, id);
+    public String updateUser(@ModelAttribute("user") User user) {
+        userService.updateUser(user);
         return "redirect:/admin";
     }
     @PostMapping("/{id}")

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 public class UserService implements UserDetailsService {
 
-    private UserRepository userRepository;
+    final private UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {
@@ -24,7 +25,6 @@ public class UserService implements UserDetailsService {
         return userRepository.findByUsername(username);
     }
 
-    @Transactional
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
@@ -36,20 +36,27 @@ public class UserService implements UserDetailsService {
     public List<User> showAllUsers() {
         return userRepository.findAll();
     }
-
+    @Transactional
     public void createUser(User user) {
+        user.setUsername(user.getUsername());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
     public User showUser(long id) {
         return userRepository.findById(id);
     }
-
-    public void updateUser(User user, long id) {
-        User update = userRepository.findById(id);
-        update.setUsername(user.getUsername());
-        update.setPassword(user.getPassword());
+    @Transactional
+    public void updateUser(User user) {
+        user.setUsername(user.getUsername());
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
+        user.setRoles(user.getRoles());
         userRepository.save(user);
     }
+    /*"удаление сделать с помошью делетмаппинга"
+
+    Я наверное ошибаюсь, но вроде тут реализация через делетмаппинг*/
+    @Transactional
     public void deleteUser(long id) {
         userRepository.deleteById(id);
     }
