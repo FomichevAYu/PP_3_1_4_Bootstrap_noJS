@@ -13,18 +13,14 @@ import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
-
-    final private UserRepository userRepository;
-
+    private final UserRepository userRepository;
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
     }
-
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = findByUsername(username);
@@ -53,9 +49,6 @@ public class UserService implements UserDetailsService {
         user.setRoles(user.getRoles());
         userRepository.save(user);
     }
-    /*"удаление сделать с помошью делетмаппинга"
-
-    Я наверное ошибаюсь, но вроде тут реализация через делетмаппинг*/
     @Transactional
     public void deleteUser(long id) {
         userRepository.deleteById(id);

@@ -12,8 +12,8 @@ import java.security.Principal;
 @Controller
 @RequestMapping("/new")
 public class RegistrationController {
-    final private UserService userService;
-    final private RoleRepository roleRepository;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
     @Autowired
     public RegistrationController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
