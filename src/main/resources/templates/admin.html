@@ -1,12 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="http://thymeleaf.org"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Все юзеры</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
+
 <body>
+<nav class="navbar navbar-expand navbar-dark text-white bg-dark">
+    <div class="container-fluid">
+        <div class="collapse navbar-collapse show" id="navbarDark">
+            <p class="navbar-nav me-auto mb-2 mb-xl-0">
+                <span class="align-middle font-weight-bold mr-1" th:text="${user.getUsername()}"></span>
+                <span class="align-middle mr-1">with roles:</span>
+                <th:block th:each="roles : ${user.getRoles()}" th:text="${roles.name} + ' '"></th:block>
+            </p>
+        </div>
+        <form th:action="@{/logout}" method="post">
+            <button type="submit" class="btn btn-dark text-secondary">Logout</button>
+        </form>
+    </div>
+</nav>
 <div th:each="user: ${users}">
     <a th:href = "@{/admin/{id}(id=${user.id})}" th:text = "${user.username}">user</a>
     <br>

@@ -1,5 +1,7 @@
 package ru.kata.spring.boot_security.demo.controllers;
 
+
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -25,7 +28,11 @@ public class AdminController {
     }
 
     @GetMapping
-    public String showAllUsers(Model model) {
+    public String showAllUsers(Model model,Principal principal) {
+        User user = userService.findByUsername(principal.getName());
+        model.addAttribute("user", user);
+        List<Role> roles =  roleRepository.findAll();
+        model.addAttribute("roles", roles);
         model.addAttribute("users", userService.showAllUsers());
         return "admin";
     }
@@ -38,7 +45,7 @@ public class AdminController {
     @GetMapping("/{id}/edit")
     public String showEditUserPage(@PathVariable("id") long id, Model model) {
         List<Role> roles =  roleRepository.findAll();
-        model.addAttribute("allRoles", roles);
+        model.addAttribute("roles", roles);
         model.addAttribute("user", userService.showUser(id));
         return "edit";
     }
