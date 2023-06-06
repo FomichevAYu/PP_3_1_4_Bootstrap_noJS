@@ -28,7 +28,7 @@ public class AdminController {
         User user = userService.findByUsername(principal.getName());
         model.addAttribute("user", user);
         List<Role> roles =  roleRepository.findAll();
-        model.addAttribute("roles", roles);
+        model.addAttribute("allRoles", roles);
         model.addAttribute("users", userService.findAll());
         return "admin";
     }
