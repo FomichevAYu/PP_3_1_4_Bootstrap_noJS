@@ -11,10 +11,25 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 public class User implements UserDetails{
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(name = "firstName")
+    private String firstName;
+
+    @Column(name = "lastName")
+    private String lastName;
+
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "email")
     private String username;
+
+    @Column(name = "password")
     private String password;
+
     @ManyToMany
     @JoinTable(
             name = "user_roles",
@@ -22,13 +37,27 @@ public class User implements UserDetails{
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
-    public User(String username, String password, Set<Role> roles) {
+
+    public User() {
+    }
+
+    public User(String firstName, String lastName, int age, String username, String password, Set<Role> roles) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
         this.username = username;
         this.password = password;
         this.roles = roles;
     }
 
-    public User() {
+    public User(long id, String firstName, String lastName, int age, String username, String password, Set<Role> roles) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.username = username;
+        this.password = password;
+        this.roles = roles;
     }
 
     public long getId() {
@@ -39,8 +68,37 @@ public class User implements UserDetails{
         this.id = id;
     }
 
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    @Override
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     @Override
@@ -62,12 +120,6 @@ public class User implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
-
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -95,21 +147,30 @@ public class User implements UserDetails{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
+        return id == user.id && age == user.age && Objects.equals(firstName, user.firstName) && Objects.equals(lastName, user.lastName) && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(roles, user.roles);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, password, roles);
+        return Objects.hash(id, firstName, lastName, age, username, password, roles);
     }
 
     @Override
     public String toString() {
         return "User{" +
                 "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
                 ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", roles=" + roles +
                 '}';
+    }
+    public String rolesToString() {
+        StringBuffer rolesString = new StringBuffer();
+        for (Role r : roles)
+            rolesString.append(r.getName().replaceAll("ROLE_", "")).append("\n");
+        return rolesString.toString();
     }
 }

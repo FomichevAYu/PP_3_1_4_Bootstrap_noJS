@@ -29,9 +29,10 @@ public class Init {
         roleRepository.save(adminTest);
         Set<Role> userTestRole = Stream.of(userTest).collect(Collectors.toSet());
         Set<Role> adminTestRole = Stream.of(adminTest).collect(Collectors.toSet());
-        User user = new User("user", "user", userTestRole);
-        User admin = new User("admin", "admin", adminTestRole);
+        User user = new User("User", "User", 22, "user@mail.ru", "user", userTestRole);
+        User admin = new User("Admin", "Admin", 22, "admin@mail.ru", "admin", adminTestRole);
         userService.save(user);
         userService.save(admin);
+
     }
 }

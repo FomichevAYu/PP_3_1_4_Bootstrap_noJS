@@ -1,16 +1,90 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:th="https://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:security="">
+
 <head>
-    <meta charset="UTF-8">
-    <title>show user</title>
+    <title>User page</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body>
-<p th:text="${user.id}">VALUE</p>
-<p th:text="${user.username}">VALUE</p>
-<form th:action="@{/logout}" method="post">
-    <button type="submit">Выйти</button>
-</form>
-</body>
-</html>
 
+<body>
+
+<nav class="navbar navbar-dark bg-dark">
+    <div class="container-fluid">
+        <h5 class="navbar-brand" th:text="${user.getUsername()} + ' with roles: ' + ${user.rolesToString()}">email and
+            role</h5>
+        <a th:href="@{/logout}" class="btn btn-link text-white-50">Logout</a>
+    </div>
+</nav>
+
+<div class="row no-gutters ">
+    <nav id="sidebarMenu" class="col-md-2 col-lg-2 d-md-block sidebar collapse">
+        <div class="position-sticky pt-2">
+            <div sec:authorize="hasRole('ADMIN')">
+                <ul class="nav nav-pills flex-column">
+                    <li class="nav-item" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" aria-current="page" href="/admin">
+                            Admin
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/user">
+                            User
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="col-md-10 bg-light">
+        <div class="tab-content">
+            <div class="container-fluid">
+                <h1>User information-page</h1>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="nav-users" role="tabpanel" aria-labelledby="nav-home-tab">
+                        <div class="panel panel-default active">
+                            <div class="panel-body">
+                                <table class="table table-striped" id="userTable">
+                                    <thead>
+                                    <tr>
+                                        <th class="panel-heading h5">About user</th>
+                                    </tr>
+                                    </thead>
+
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">First Name</th>
+                                        <th scope="col">Last Name</th>
+                                        <th scope="col">Age</th>
+                                        <th scope="col">Email</th>
+                                        <th scope="col">Role</th>
+                                    </tr>
+
+                                    <tbody>
+                                    <tr>
+                                        <td th:text="${user.getId()}"></td>
+                                        <td th:text="${user.getFirstName()}"></td>
+                                        <td th:text="${user.getLastName()}"></td>
+                                        <td th:text="${user.getAge()}"></td>
+                                        <td th:text="${user.getUsername()}"></td>
+                                        <td>
+                                            <div th:each="role : ${user.getRoles()}">
+                                                <p id="role_field" th:text="${role.name.substring(5).toString()}"></p>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    <tbody id="data"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+
+</html>
