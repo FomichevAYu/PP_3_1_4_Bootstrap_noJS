@@ -2,6 +2,8 @@ package ru.kata.spring.boot_security.demo.controllers;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,8 +14,10 @@ import ru.kata.spring.boot_security.demo.service.UserService;
 import ru.kata.spring.boot_security.demo.utill.UserValidator;
 
 import java.security.Principal;
+import java.util.List;
 
-@Controller
+@RestController
+@RequestMapping("api/admin")
 public class AdminController {
     private final UserService userService;
     private final RoleService roleService;
@@ -24,15 +28,12 @@ public class AdminController {
         this.roleService = roleService;
         this.userValidator = userValidator;
     }
-    @GetMapping("/admin")
-    public String showAllUsers(Model model, Principal principal) {
-        model.addAttribute("user", userService.findByUsername(principal.getName()));
-        model.addAttribute("users", userService.findAll());
-        model.addAttribute("allRoles", roleService.getRoles());
-        return "admin";
+    @GetMapping
+    public ResponseEntity<List<User>> showAllUsers() {
+        return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/admin/user/{id}/edit")
+    @GetMapping("/user/{id}/edit")
     public String showOneUser(@PathVariable("id") int id, Model model) {
         model.addAttribute("user", userService.findOne(id));
         model.addAttribute("allRoles", roleService.getRoles());
