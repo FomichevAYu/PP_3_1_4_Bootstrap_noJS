@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repository.UserRepository;
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
 
 @Service
@@ -37,6 +38,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User findOne(long id) {
         return userRepository.findById(id);
+    }
+
+    @Override
+    public User getAuthUser(Principal principal) {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 
     public User findByUsername(String username) {

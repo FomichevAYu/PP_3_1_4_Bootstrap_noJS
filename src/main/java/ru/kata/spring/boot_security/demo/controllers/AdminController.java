@@ -20,55 +20,45 @@ import java.util.List;
 @RequestMapping("api/admin")
 public class AdminController {
     private final UserService userService;
-    private final RoleService roleService;
-    private final UserValidator userValidator;
     @Autowired
-    public AdminController(UserService userService, RoleService roleService, UserValidator userValidator) {
+
+    public AdminController(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
-        this.userValidator = userValidator;
     }
     @GetMapping
-    public ResponseEntity<List<User>> showAllUsers() {
+    public ResponseEntity<List<User>> showUsers() {
+
         return new ResponseEntity<>(userService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/user/{id}/edit")
-    public String showOneUser(@PathVariable("id") int id, Model model) {
-        model.addAttribute("user", userService.findOne(id));
-        model.addAttribute("allRoles", roleService.getRoles());
-        return "user";
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> showUser(@PathVariable("id") Long id) {
+        return new ResponseEntity<> (userService.findOne(id), HttpStatus.OK);
     }
 
-    @PatchMapping("/admin/user/{id}")
-    public String update(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
-        userService.update(user);
-        return "redirect:/admin";
+    @GetMapping("/userAuth")
+    public ResponseEntity<User> showAuthUser(Principal principal) {
+        return new ResponseEntity<>(userService.findByUsername(principal.getName()), HttpStatus.OK);
     }
 
-    @GetMapping("/admin/new")
-    public String showPageCreatingUser(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("allRoles", roleService.getRoles());
-        return "admin";
-    }
-
-    @PostMapping("/admin/user")
-    public String create(@ModelAttribute("user") User user, BindingResult bindingResult) {
-        userValidator.validate(user, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
+    @PostMapping("/newAddUser")
+    public ResponseEntity<HttpStatus> saveNewUser(@RequestBody User user) {
         userService.save(user);
-        return "redirect:/admin";
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 
-    @DeleteMapping("/admin/user/{id}")
-    public String delete(@PathVariable("id") int id) {
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
-        return "redirect:/admin";
+        return new ResponseEntity<> (HttpStatus.OK);
+    }
+
+
+    @PatchMapping("/users/{id}")
+    public ResponseEntity<HttpStatus> userSaveEdit(@RequestBody  User user, @PathVariable Long id) {
+        user.setId(id);
+        userService.update(user);
+        return new ResponseEntity<> (HttpStatus.OK);
     }
 }
+
