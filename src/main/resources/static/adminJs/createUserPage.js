@@ -40,6 +40,7 @@ async function addNewUser(event) {
         })
         var triggerEl = document.querySelector('#Admin_panel-tab a[href="#user_table"]')
         bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name
+        document.getElementById("user_table-tab").click();
     });
 
 }
