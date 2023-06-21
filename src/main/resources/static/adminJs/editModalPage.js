@@ -9,7 +9,7 @@ const closeEditButton = document.getElementById("editClose")
 const bsEditModal = new bootstrap.Modal(editModal);
 
 async function loadDataForEditModal(id) {
-    const  urlDataEd = 'api/admins/users/' + id;
+    const  urlDataEd = 'api/admin/users/' + id;
     let usersPageEd = await fetch(urlDataEd);
     if (usersPageEd.ok) {
         // let userData =

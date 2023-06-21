@@ -5,7 +5,7 @@ form_new.addEventListener('submit', addNewUser);
 
 async function addNewUser(event) {
     event.preventDefault();
-    const urlNew = 'api/admins/newAddUser';
+    const urlNew = 'api/admin/newAddUser';
     let listOfRole = [];
     for (let i = 0; i < role_new.length; i++) {
         listOfRole.push({

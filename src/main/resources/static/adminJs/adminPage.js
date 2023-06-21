@@ -38,7 +38,7 @@ function loadTableData(listAllUser) {
     <td>${user.firstName}</td>
     <td>${user.lastName}</td>
     <td>${user.age}</td>
-    <td>${user.email}</td>
+    <td>${user.username}</td>
     <td>${roles}</td>
     <td>
         <button type="button" class="btn btn-primary" data-bs-toogle="modal"

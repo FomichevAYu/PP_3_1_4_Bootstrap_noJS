@@ -5,7 +5,8 @@ const authUser = fetch(userurl).then(response => response.json())
          let roles = ''
          user.roles.forEach(role => {
              roles += ' '
-             roles += role.name
+             roles += role.name.toString()
+                 .replaceAll("ROLE_", "")
          })
          document.getElementById("navbar-email").innerHTML = user.username
          document.getElementById("navbar-roles").innerHTML = roles
