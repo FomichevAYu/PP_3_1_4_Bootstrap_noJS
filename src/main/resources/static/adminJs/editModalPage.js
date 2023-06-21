@@ -3,7 +3,7 @@ const id_ed = document.getElementById('edit-id');
 const name_ed = document.getElementById('edit-first_name');
 const lastname_ed = document.getElementById('edit-last_name');
 const age_ed = document.getElementById('edit-age');
-const email_ed = document.getElementById('edit-email');
+const username_ed = document.getElementById('edit-username');
 const editModal = document.getElementById("editModal");
 const closeEditButton = document.getElementById("editClose")
 const bsEditModal = new bootstrap.Modal(editModal);
@@ -19,7 +19,7 @@ async function loadDataForEditModal(id) {
                 name_ed.value = `${user.firstName}`;
                 lastname_ed.value = `${user.lastName}`;
                 age_ed.value = `${user.age}`;
-                email_ed.value = `${user.email}`;
+                username_ed.value = `${user.username}`;
             })
         console.log("id_ed: " + id_ed.value + " !!")
         bsEditModal.show();
@@ -28,7 +28,7 @@ async function loadDataForEditModal(id) {
     }
 }
 async function editUser() {
-    let urlEdit = 'api/admins/users/' + id_ed.value;
+    let urlEdit = 'api/admin/users/' + id_ed.value;
     let listOfRole = [];
     console.dir(form_ed)
     for (let i=0; i<form_ed.roles.options.length; i++) {
@@ -47,7 +47,7 @@ async function editUser() {
             firstName: form_ed.firstName.value,
             lastName: form_ed.lastName.value,
             age: form_ed.age.value,
-            email: form_ed.email.value,
+            username: form_ed.username.value,
             password: form_ed.password.value,
             roles: listOfRole
         })
