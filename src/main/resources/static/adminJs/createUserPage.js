@@ -30,17 +30,6 @@ async function addNewUser(event) {
         form_new.reset();
         getAdminPage();
         document.getElementById("user_table-tab").click();
-        /*var triggerTabList = [].slice.call(document.querySelectorAll('#Admin_panel-tab a'))
-        triggerTabList.forEach(function (triggerEl) {
-            var tabTrigger = new bootstrap.Tab(triggerEl)
-
-            triggerEl.addEventListener('click', function (event) {
-                event.preventDefault()
-                tabTrigger.show()
-            })
-        })
-        var triggerEl = document.querySelector('#Admin_panel-tab a[href="#user_table"]')
-        bootstrap.Tab.getInstance(triggerEl).show() // Select tab by name*/
     });
 
 }

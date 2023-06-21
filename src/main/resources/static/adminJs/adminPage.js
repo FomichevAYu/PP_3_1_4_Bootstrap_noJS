@@ -6,7 +6,7 @@ currentUser.then(user => {
         let roles = ''
         user.roles.forEach(role => {
             roles += ' '
-            roles += role.name
+            roles += role.name.replaceAll("ROLE_", "")
         })
         document.getElementById("navbar-email").innerHTML = user.username
         document.getElementById("navbar-roles").innerHTML = roles
