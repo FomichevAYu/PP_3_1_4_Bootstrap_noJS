@@ -7,6 +7,7 @@ import ru.kata.spring.boot_security.demo.models.User;
 import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.UserService;
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -22,6 +23,7 @@ public class Init {
     }
 
     @PostConstruct
+    @Transactional
     public void initTestUsers() {
         Role userTest = new Role("ROLE_USER");
         Role adminTest = new Role("ROLE_ADMIN");
