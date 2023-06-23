@@ -57,4 +57,4 @@ function loadTableData(listAllUser) {
     tableBody.innerHTML = dataHtml;
 }
 getAdminPage();
-getUserPage();
+getAdminUserPage();

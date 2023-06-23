@@ -21,4 +21,9 @@ public class RoleServiceImpl implements RoleService{
         List<Role> list = roleRepository.findAll();
         return new HashSet<>(list);
     }
+
+    @Override
+    public void save(Role role) {
+        roleRepository.save(role);
+    }
 }
